@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class AdminAuthController extends Controller
+{
+    // Menampilkan halaman login admin
+    public function showLoginForm()
+    {
+        return view('admin.login');
+    }
+
+    // Proses login admin
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
+            Auth::logout();
+            return redirect()->route('admin.login')->with('error', 'Anda bukan admin.');
+        }
+
+        return back()->with('error', 'Email atau password salah.');
+    }
+
+    // Logout admin
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('admin.login');
+    }
+}

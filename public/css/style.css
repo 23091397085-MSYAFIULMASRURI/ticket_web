@@ -1,0 +1,28 @@
+* {
+    scroll-behavior: smooth;
+}
+
+html, body {
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+}
+
+::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+    
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

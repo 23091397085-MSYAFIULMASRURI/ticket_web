@@ -62,27 +62,39 @@
                         <!-- Tombol Detail & Edit -->
                         <div class="p-6 flex justify-center space-x-4">
 
-                            <!-- Tombol Detail -->
                             @if (auth()->check())
-                                <a href="{{ route('event.show', $event->id) }}"
-                                    class="inline-flex px-3 py-2 border-2 border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition text-center">
-                                    Detail
-                                </a>
-                            @else
-                                <a href="{{ route('register') }}"
-                                    class="inline-flex px-3 py-2 bg-gray-800 text-gray-300 rounded hover:bg-gray-700 hover:text-white transition text-center">
-                                    Daftar untuk Lihat Detail
-                                </a>
-                            @endif
- 
-
-                        @if (auth()->check() && (auth()->user()->role == 'admin' || auth()->user()->role == 'organizer'))
-                            <!-- Tombol Edit -->
-                            <a href="{{ route('event.edit', $event->id) }}"
-                                class="inline-flex px-3 py-2 border-2 border-yellow-500 text-yellow-500 rounded hover:bg-yellow-500 hover:text-white transition">
-                                Edit
+                            <!-- Tombol Detail -->
+                            <a href="{{ route('event.show', $event->id) }}"
+                                class="inline-flex px-3 py-2 border-2 border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition text-center">
+                                Detail
+                            </a>
+                        @else
+                            <a href="{{ route('register') }}"
+                                class="inline-flex px-3 py-2 bg-gray-800 text-gray-300 rounded hover:bg-gray-700 hover:text-white transition text-center">
+                                Daftar untuk Lihat Detail
                             </a>
                         @endif
+                        
+                        @if (auth()->check())
+                            @if (auth()->user()->role == 'admin' || (auth()->user()->role == 'organizer' && auth()->user()->id == $event->created_by))
+                                <!-- Tombol Edit (Hanya Admin dan Organizer yang membuat event ini) -->
+                                <a href="{{ route('event.edit', $event->id) }}"
+                                    class="inline-flex px-3 py-2 border-2 border-yellow-500 text-yellow-500 rounded hover:bg-yellow-500 hover:text-white transition">
+                                    Edit
+                                </a>
+                        
+                                <!-- Tombol Hapus (Hanya Admin dan Organizer yang membuat event ini) -->
+                                <form action="{{ route('event.destroy', $event->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="inline-flex px-3 py-2 border-2 border-red-500 text-red-500 rounded hover:bg-red-500 hover:text-white transition">
+                                        Hapus
+                                    </button>
+                                </form>
+                            @endif
+                        @endif
+                        
 
 
                     </div>

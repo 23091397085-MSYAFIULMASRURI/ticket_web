@@ -40,9 +40,9 @@
                 <h2 class="text-2xl font-bold mb-4">Informasi Kontak</h2>
                 <p class="text-gray-700">Silakan hubungi kami melalui informasi di bawah ini:</p>
                 <div class="mt-4">
-                    <p class="text-gray-800"><strong>📍 Alamat:</strong> Jl. Raya No. 123, Jakarta</p>
-                    <p class="text-gray-800 mt-2"><strong>📧 Email:</strong> support@eventmanagement.com</p>
-                    <p class="text-gray-800 mt-2"><strong>📞 Telepon:</strong> +62 812-3456-7890</p>
+                    <p class="text-gray-800"><strong>📍 Alamat:</strong>Jl. Ketintang, Ketintang, Kec. Gayungan, Surabaya, Jawa Timur 60231</p>
+                    <p class="text-gray-800 mt-2"><strong>📧 Email:</strong> ticketingevent@gmail.com</p>
+                    <p class="text-gray-800 mt-2"><strong>📞 Telepon:</strong> +62 895-3970-46845</p>
                 </div>
             </div>
 

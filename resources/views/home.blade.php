@@ -13,22 +13,35 @@
             </p>
             
             <div class="mt-6 flex justify-center gap-4">
-            @if (Auth::check())
-                <!-- Jika sudah login -->
+                @if (Auth::check())
+                @if (Auth::user()->role === 'organizer')
+                    <!-- Jika sudah login sebagai Organizer -->
                     <a href=""
-                        class="bg-orange-500 px-6 py-3 rounded-full text-lg font-semibold shadow-lg text-white transition hover:bg-orange-600 hover:text-white">
-                        Daftar Sebagai Organizer
+                        class="bg-orange-500 px-6 py-3 rounded-full text-lg font-semibold shadow-lg text-white transition hover:bg-orange-600">
+                        Dashboard Organizer
                     </a>
-                </div>
+                @elseif (Auth::user()->role === 'admin')
+                    <!-- Jika sudah login sebagai Admin -->
+                    <a href=""
+                        class="bg-red-500 px-6 py-3 rounded-full text-lg font-semibold shadow-lg text-white transition hover:bg-red-600">
+                        Dashboard Admin
+                    </a>
+                @else
+                    <!-- Jika user biasa login -->
+                    <a href=""
+                        class="bg-transparent px-6 py-3 rounded-full text-lg text-white font-semibold shadow-lg border-2 border-white transition hover:bg-white hover:text-blue-600">
+                        Dashboard User
+                    </a>
+                @endif
             @else
-                <!-- Jika belum daftar, tampilkan tombol daftar sebagai organizer dan user -->
+                <!-- Jika belum login -->
                 <div class="mt-6 flex justify-center gap-4">
                     <a href=""
-                        class="bg-orange-500 px-6 py-3 rounded-full text-lg font-semibold shadow-lg text-white transition hover:bg-orange-600 hover:text-white">
+                        class="bg-orange-500 px-6 py-3 rounded-full text-lg font-semibold shadow-lg text-white transition hover:bg-orange-600">
                         Daftar Sebagai Organizer
                     </a>
-
-                    <a href="{{ route('register') }}"
+            
+                    <a href=""
                         class="bg-transparent px-6 py-3 rounded-full text-lg text-white font-semibold shadow-lg border-2 border-white transition hover:bg-white hover:text-blue-600">
                         Daftar Sebagai User
                     </a>

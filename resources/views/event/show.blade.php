@@ -49,18 +49,20 @@
 
 
 
-                    @if (auth()->check() && (auth()->user()->role == 'admin' || auth()->user()->role == 'organizer'))
-                        <!-- Tombol Hapus -->
-                        <form action="{{ route('event.destroy', $event->id) }}" method="POST"
-                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus event ini?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition font-poppins font-semibold">
-                                Hapus
-                            </button>
-                        </form>
-                    @endif
+                    @if (auth()->check() && (auth()->user()->role == 'admin' || 
+                    (auth()->user()->role == 'organizer' && auth()->user()->id == $event->created_by)))
+                    <!-- Tombol Hapus -->
+                    <form action="{{ route('event.destroy', $event->id) }}" method="POST"
+                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus event ini?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition font-poppins font-semibold">
+                            Hapus
+                        </button>
+                    </form>
+                @endif
+                
                 </div>
             </div>
         </div>

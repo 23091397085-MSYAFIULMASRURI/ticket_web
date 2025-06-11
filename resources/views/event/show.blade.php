@@ -30,9 +30,9 @@
                         @if ($event->organizer)
                             <span
                                 class="text-sm font-semibold px-2 py-1 rounded-full 
-                            @if ($event->organizer->role === 'admin') bg-red-500 
-                            @elseif ($event->organizer->role === 'organizer') bg-orange-500 
-                            @else bg-blue-500 @endif text-white">
+                                @if ($event->organizer->role === 'admin') bg-red-500 
+                                @elseif ($event->organizer->role === 'organizer') bg-orange-500 
+                                @else bg-blue-500 @endif text-white">
                                 {{ ucfirst($event->organizer->role) }}
                             </span>
                         @endif
@@ -47,22 +47,20 @@
                         Kembali
                     </a>
 
-
-
-                    @if (auth()->check() && (auth()->user()->role == 'admin' || 
-                    (auth()->user()->role == 'organizer' && auth()->user()->id == $event->created_by)))
-                    <!-- Tombol Hapus -->
-                    <form action="{{ route('event.destroy', $event->id) }}" method="POST"
-                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus event ini?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition font-poppins font-semibold">
-                            Hapus
-                        </button>
-                    </form>
-                @endif
-                
+                    @if (auth()->check() &&
+                            (auth()->user()->role == 'admin' ||
+                                (auth()->user()->role == 'organizer' && auth()->user()->id == $event->created_by)))
+                        <!-- Tombol Hapus -->
+                        <form action="{{ route('event.destroy', $event->id) }}" method="POST"
+                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus event ini?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition font-poppins font-semibold">
+                                Hapus
+                            </button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>
@@ -80,13 +78,12 @@
                         <div class="border border-gray-300 p-6 rounded-lg bg-white text-gray-800">
                             <h3
                                 class="text-lg font-semibold text-center py-2 rounded-t-md 
-                            @if ($ticket->type === 'VIP') bg-gradient-to-r from-indigo-600 to-purple-500 text-white p-4 
-                            @else bg-gray-100 text-gray-800 @endif">
+                                @if ($ticket->type === 'VIP') bg-gradient-to-r from-indigo-600 to-purple-500 text-white p-4 
+                                @else bg-gray-100 text-gray-800 @endif">
                                 {{ $ticket->type }}
                             </h3>
 
                             <div class="m-5">
-
                                 <p class="text-lg mt-2 text-center font-medium">Rp
                                     {{ number_format($ticket->price, 2, ',', '.') }}</p>
                                 <p class="mt-1 text-center text-sm text-gray-600">Tersisa: {{ $ticket->available_tickets }}
@@ -95,20 +92,45 @@
 
                             @if ($ticket->available_tickets > 0)
                                 <div class="flex justify-center mt-4">
-                                    <a href=""
-                                        class="inline-flex bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
-                                        Beli Tiket
-                                    </a>
+                                    <form action="{{ route('orders.store') }}" method="POST"
+                                        class="flex justify-center mt-4">
+                                        @csrf
+                                        <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                        <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
+                                        <input type="number" name="quantity" value="1" min="1"
+                                            max="{{ $ticket->available_tickets }}"
+                                            class="w-16 text-center border border-gray-300 rounded-md mr-2">
+                                        <button type="submit"
+                                            class="inline-flex items-center gap-2 border-2 border-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-200 transition">
+                                            <span class="font-semibold text-blue-600 hover:text-white">Checkout</span>
+                                        </button>
+                                    </form>
+
                                 </div>
                             @else
                                 <p class="text-red-500 text-center mt-2">Habis</p>
                             @endif
+
                         </div>
                     @endforeach
                 </div>
             @endif
+
+            {{-- Tombol Aksi Tiket - Hanya untuk Admin --}}
+            @if (auth()->check() && auth()->user()->role === 'admin')
+                <div class="mt-10 flex justify-center gap-4">
+                    <a href="{{ route('tickets.create', ['event_id' => $event->id]) }}"
+                        class="px-6 py-3 bg-green-600 text-white rounded-md shadow hover:bg-green-700 transition font-semibold">
+                        + Buat Tiket
+                    </a>
+
+                    <a href="{{ route('tickets.index', ['event_id' => $event->id]) }}"
+                        class="px-6 py-3 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition font-semibold">
+                        Lihat Tiket
+                    </a>
+                </div>
+            @endif
+
         </div>
     </section>
-
-
 @endsection

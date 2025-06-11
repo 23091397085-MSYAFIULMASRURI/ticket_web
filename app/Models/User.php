@@ -18,6 +18,12 @@ class User extends Authenticatable
         return $this->hasMany(Event::class, 'organizer_id');
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -28,6 +34,8 @@ class User extends Authenticatable
         'email',
         'password',
         'user',
+        'role',
+        'is_requesting_organizer', // ← tambahkan ini
     ];
 
     /**

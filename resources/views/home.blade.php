@@ -16,19 +16,19 @@
                 @if (Auth::check())
                 @if (Auth::user()->role === 'organizer')
                     <!-- Jika sudah login sebagai Organizer -->
-                    <a href=""
+                    <a href="{{ route('event.create') }}"
                         class="bg-orange-500 px-6 py-3 rounded-full text-lg font-semibold shadow-lg text-white transition hover:bg-orange-600">
-                        Dashboard Organizer
+                        Mulai Buat Event
                     </a>
                 @elseif (Auth::user()->role === 'admin')
                     <!-- Jika sudah login sebagai Admin -->
-                    <a href=""
+                    <a href="{{ route('admin.dashboard') }}"
                         class="bg-red-500 px-6 py-3 rounded-full text-lg font-semibold shadow-lg text-white transition hover:bg-red-600">
                         Dashboard Admin
                     </a>
                 @else
                     <!-- Jika user biasa login -->
-                    <a href=""
+                    <a href="{{ route('user.dashboard') }}"
                         class="bg-transparent px-6 py-3 rounded-full text-lg text-white font-semibold shadow-lg border-2 border-white transition hover:bg-white hover:text-blue-600">
                         Dashboard User
                     </a>
@@ -36,12 +36,8 @@
             @else
                 <!-- Jika belum login -->
                 <div class="mt-6 flex justify-center gap-4">
-                    <a href=""
-                        class="bg-orange-500 px-6 py-3 rounded-full text-lg font-semibold shadow-lg text-white transition hover:bg-orange-600">
-                        Daftar Sebagai Organizer
-                    </a>
             
-                    <a href=""
+                    <a href="{{ route('login') }}"
                         class="bg-transparent px-6 py-3 rounded-full text-lg text-white font-semibold shadow-lg border-2 border-white transition hover:bg-white hover:text-blue-600">
                         Daftar Sebagai User
                     </a>

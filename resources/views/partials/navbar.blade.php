@@ -27,7 +27,20 @@
              <!-- Dropdown Menu -->
              <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg hidden">
                  <a href="/profile" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
-                 <a href="/dashboard" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Dashboard</a>
+                 @auth
+                     @if (auth()->user()->role === 'user')
+                         <a href="{{ route('user.dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                             User Dashboard
+                         </a>
+                     @endif
+                 @endauth
+
+                 @auth
+                     @if (Auth::user()->role === 'admin')
+                         <a href="{{ route('admin.dashboard') }}"
+                             class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Dashboard</a>
+                     @endif
+                 @endauth
                  @if (Auth::check())
                      <!-- Jika user sudah login, tampilkan tombol Logout -->
                      <form method="POST" action="{{ route('logout') }}">
@@ -67,7 +80,13 @@
          <hr class="my-2">
 
          <a href="/profile" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
-         <a href="/dashboard" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Dashboard</a>
+         @auth
+             @if (Auth::user()->role === 'admin')
+                 <a href="{{ route('admin.dashboard') }}"
+                     class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Dashboard</a>
+             @endif
+         @endauth
+
          @if (Auth::check())
              <!-- Jika user sudah login, tampilkan tombol Logout -->
              <form method="POST" action="{{ route('logout') }}">

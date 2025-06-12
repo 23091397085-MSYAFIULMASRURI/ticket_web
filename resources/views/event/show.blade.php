@@ -116,8 +116,8 @@
                 </div>
             @endif
 
-            {{-- Tombol Aksi Tiket - Hanya untuk Admin --}}
-            @if (auth()->check() && auth()->user()->role === 'admin')
+            {{-- Tombol Aksi Tiket - Hanya untuk Admin dan Organizer --}}
+            @if (auth()->check() && in_array(auth()->user()->role, ['admin', 'organizer']))
                 <div class="mt-10 flex justify-center gap-4">
                     <a href="{{ route('tickets.create', ['event_id' => $event->id]) }}"
                         class="px-6 py-3 bg-green-600 text-white rounded-md shadow hover:bg-green-700 transition font-semibold">
@@ -130,6 +130,7 @@
                     </a>
                 </div>
             @endif
+
 
         </div>
     </section>
